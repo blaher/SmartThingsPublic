@@ -43,7 +43,6 @@ def schedules() {
 	log.debug('Scheduling times');
 
 	schedule("0 45 5 ? * 2-6", wakeUp); // Mon - Fri
-    schedule("0 0 10 ? * 2-6", checkMotion); // Mon - Fri
 }
 
 def wakeUp() {
