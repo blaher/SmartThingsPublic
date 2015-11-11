@@ -56,10 +56,11 @@ def checkMotion(evt) {
     
     unsubscribe(motion);
 	
+    state.lightAuto = false;
     lights.setLevel(100);
     setLocationMode(awake_mode);
     
-    runIn(60*1, startLevelUp);
+    runIn(5, startLevelUp);
 }
 
 def startLevelUp() {
@@ -79,6 +80,8 @@ def levelUp() {
     
     if (state.lightLevel < 99) {
     	runIn(60*1, levelUp);
+    } else {
+    	state.lightAuto = true;
     }
 }
 
