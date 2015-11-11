@@ -71,7 +71,7 @@ def stepOne() {
 	if (state.isOn) {
     	log.debug('is still on.');
     
-        lightsOdd.setColor(hex: '#ff6600');
+        lightsOdd.setColor(hex: '#ff2200');
         lightsEven.setColor(hex: '#000000');
 
 		unschedule(stepTwo);
@@ -86,7 +86,7 @@ def stepTwo() {
     	log.debug('is still on.');
     
         lightsOdd.setColor(hex: '#000000');
-        lightsEven.setColor(hex: '#ff6600');
+        lightsEven.setColor(hex: '#ff2200');
 
 		unschedule(stepOne);
         runIn(2, stepOne);
