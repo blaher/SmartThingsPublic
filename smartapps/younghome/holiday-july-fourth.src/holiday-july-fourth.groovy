@@ -5,7 +5,7 @@ definition(
 	description: "Flashes the entire house's colors, and plays 1812 Overture over sonos.",
 	category: "Convenience",
 	iconUrl: "https://s3.amazonaws.com/smartapp-icons/Developers/smart-light-timer.png",
-	iconX2Url: "https://s3.amazonaws.com/smartapp-iconsDevelopers/smart-light-timer@2x.png"
+	iconX2Url: "https://s3.amazonaws.com/smartapp-icons/Developers/smart-light-timer@2x.png"
 );
 
 

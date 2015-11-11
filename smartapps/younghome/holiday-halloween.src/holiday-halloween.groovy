@@ -1,8 +1,8 @@
 definition(
-	name: "Holiday Christmas",
+	name: "Holiday Halloween",
 	namespace: "younghome",
 	author: "Benjamin J. Young",
-	description: "Flashes the entire house's colors, and plays random christmas music over sonos while away and movement is detected in front.",
+	description: "Flashes the entire house's colors.",
 	category: "Convenience",
 	iconUrl: "https://s3.amazonaws.com/smartapp-icons/Developers/smart-light-timer.png",
 	iconX2Url: "https://s3.amazonaws.com/smartapp-icons/Developers/smart-light-timer@2x.png"
@@ -36,8 +36,8 @@ def states() {
 def schedules() {
 	log.debug('Scheduling events');
 
-    schedule('0 0 5 1-25 12 ?', lightsOn);
-    schedule('0 0 8 1-25 12 ?', lightsOff);
+    schedule('0 0 5 31 8 ?', lightsOn);
+    schedule('0 0 8 31 8 ?', lightsOff);
 }
 
 def lightsOn() {
@@ -71,8 +71,8 @@ def stepOne() {
 	if (state.isOn) {
     	log.debug('is still on.');
     
-        lightsOdd.setColor(hex: '#ff0000');
-        lightsEven.setColor(hex: '#00ff00');
+        lightsOdd.setColor(hex: '#ff6600');
+        lightsEven.setColor(hex: '#000000');
 
 		unschedule(stepTwo);
         runIn(2, stepTwo);
@@ -85,8 +85,8 @@ def stepTwo() {
 	if (state.isOn) {
     	log.debug('is still on.');
     
-        lightsOdd.setColor(hex: '#00ff00');
-        lightsEven.setColor(hex: '#ff0000');
+        lightsOdd.setColor(hex: '#000000');
+        lightsEven.setColor(hex: '#ff6600');
 
 		unschedule(stepOne);
         runIn(2, stepOne);
