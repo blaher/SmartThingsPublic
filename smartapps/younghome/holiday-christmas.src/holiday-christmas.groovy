@@ -14,6 +14,10 @@ preferences {
 		input('lightsOdd', 'capability.colorControl', title:'Odd', multiple:true);
 		input('lightsEven', 'capability.colorControl', title:'Even', multiple:true);
 	}
+    
+    section('Select fishtank...') {
+		input(name: 'strip', type: 'capability.switch', multiple: false);
+	}
 }
 
 def installed() {
@@ -42,6 +46,9 @@ def schedules() {
 
 def lightsOn() {
 	log.debug('Lights on');
+    
+    strip.off1();
+    strip.off2();
 
 	state.isOn = true;
     state.lightAuto = false;
