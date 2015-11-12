@@ -9,79 +9,159 @@ definition(
 );
 
 preferences {
-	section("Select switch...") { // AquairumFWStrip
-		input(name: "strip", type: "capability.switch", multiple: false);
+	section('Select switch...') { // AquairumFWStrip
+		input(name: 'strip', type: 'capability.switch', multiple: false);
+	}
+    
+    section('Modes') {
+		input('awake_mode', 'mode', title:'Awake');
+		input('sleep_mode', 'mode', title:'Sleep');
+		input('away_mode', 'mode', title:'Away');
 	}
 }
 
 def installed() {
-	log.debug("Installed with settings: ${settings}");
-	scheduleTimes();
+	log.debug('Installed with settings: ${settings}');
+    
+    states();
+    subscribes();
+	schedules();
+    
+	stopUnused();
 }
 
 def updated(settings) {
 	log.debug('Application updated');
+    
+    states();
+    subscribes();
 	unschedule();
-	scheduleTimes();
+	schedules();
+    
+	stopUnused();
 }
 
-def scheduleTimes() {
+def states() {
+	log.debug('Defining intial states');
+    
+    state.frontLight = false;
+    state.backLight = false;
+}
+
+def subscribes() {
+	log.debug('Subscribing to actions');
+
+	subscribe(location, 'mode', checkMode);
+}
+
+def schedules() {
 	log.debug('Scheduling times');
 
-	// Display Tank
-	// On
-	schedule("0 0 6 ? * 2-6", startDisplay); // Mon - Fri
-    schedule("0 0 10 ? * 1,7", startDisplay); // Sun, Sat
-    // Mid-day Break
-	//schedule("0 0 10 ? * 2-6", stopDisplay); // Mon - Fri
-	//schedule("0 0 17 ? * 2-6", startDisplay); // Mon - Fri
-    // Off
-	schedule("0 0 21 ? * 1-5", stopDisplay); // Sun - Thu
-    schedule("0 0 22 ? * 6-7", stopDisplay); // Fri - Sat
-
-	// Refugium Tank
-	//schedule("0 0 17 * * ?", startRefugium); // Everyday
-	//schedule("0 0 8 ? * 2-6", stopRefugium); // Mon - Fri
-    
-    // Brackish Tank
-	//schedule("0 0 6 * * ?", startBrackish); // brackish broke
-	//schedule("0 0 22 * * ?", stopBrackish);
-    
-    // Refugium Pump
-	//schedule("0 0 0 * * ?", stopUnused);
+	schedule('0 0/15 * * * ?', checkTime);
 }
 
-def startDisplay() {
-	log.debug('Turning on display outlet');
+def checkMode(evt) {
+	log.debug('Checking mode');
+
+	def calendar = Calendar.getInstance();
+	def day = calendar.get(Calendar.DAY_OF_WEEK);
+    
+	if (day == Calendar.SATURDAY || day == Calendar.SUNDAY) {
+        if (evt.value == sleep_mode) {
+            log.debug('You went to bed');
+
+            stopLights(false);
+        } else if (evt.value == away_mode) {
+            log.debug('You left the house');
+
+            stopLights(false);
+        } else if (evt.value == awake_mode) {
+            log.debug('You\'re home and awake');
+
+            if (state.lights) {
+                startLights(false);
+            }
+        }
+    }
+}
+
+def checkTime() {
+	log.debug('Checking time');
+    
+	def calendar = Calendar.getInstance();
+	def day = calendar.get(Calendar.DAY_OF_WEEK);
+	def hour = (new Date(now())).format('HH', location.timeZone);
+    log.debug("Hour is ${hour} on weekday ${day}");
+	
+	switch (hour) {
+		case '00':
+			stopLights();
+			stopUnused();
+		break;
+		case '06':
+			switch (day) {
+				case Calendar.MONDAY:
+				case Calendar.TUESDAY:
+				case Calendar.WEDNESDAY:
+				case Calendar.THURSDAY:
+				case Calendar.FRIDAY:
+                case Calendar.SATURDAY:
+				case Calendar.SUNDAY:
+					startLights();
+				break;
+			}
+		break;
+		case '10':
+			switch (day) {
+				case Calendar.MONDAY:
+				case Calendar.TUESDAY:
+				case Calendar.WEDNESDAY:
+				case Calendar.THURSDAY:
+				case Calendar.FRIDAY:
+					stopLights();
+				break;
+			}
+		break;
+		case '17':
+			startLights();
+		break;
+		case '21':
+			switch (day) {
+				case Calendar.MONDAY:
+				case Calendar.TUESDAY:
+				case Calendar.WEDNESDAY:
+				case Calendar.THURSDAY:
+                case Calendar.SUNDAY:
+					stopLights();
+				break;
+			}
+		break;
+	}
+}
+
+def startLights(auto = true) {
+	log.debug('Turning on lights');
+    
+    if (auto) {
+    	state.lights = true;
+    }
 	strip.on1();
+    strip.on2();
 }
 
-def stopDisplay() {
-	log.debug('Turning off display outlet');
+def stopLights(auto = true) {
+	log.debug('Turning off lights');
+    
+    if (auto) {
+    	state.lights = false;
+    }
 	strip.off1();
+    strip.off2();
 }
 
-def startRefugium() {
-	log.debug('Turning on refugium outlet');
-	strip.on2();
-}
-
-def stopRefugium() {
-	log.debug('Turning off refugium outlet');
-	strip.off2();
-}
-
-def startBrackish() {
-	log.debug('Turning on brackish outlet');
-	strip.on3();
-}
-
-def stopBrackish() {
-	log.debug('Turning off brackish outlet');
+def stopUnused() { // Used for other outlets for later use
+	log.debug('Turning off unused outlets');
+    
 	strip.off3();
-}
-
-def stopUnused() { // Used for Refugium Pump during later process
-	log.debug('Turning off unused outlet');
 	strip.off4();
 }

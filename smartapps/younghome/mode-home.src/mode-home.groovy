@@ -13,6 +13,10 @@ preferences {
 		input('gps', 'capability.switch', multiple: true);
 	}
     
+    section('Select Alexa Switch') {
+		input('alexa', 'capability.switch', multiple: false);
+	}
+    
 	section('Select Home Mode') {
 		input('home_mode', 'mode');
 	}
@@ -22,6 +26,7 @@ def installed() {
 	log.debug("Installed with settings: ${settings}");
 	
 	subscribe(gps, 'switch.on', switchMode);
+    subscribe(alexa, 'switch.on', switchAlexa);
 	subscribe(location, 'mode', modeChanged);
 }
 
@@ -30,6 +35,12 @@ def updated() {}
 def switchMode(evt) {
 	log.debug('Someone has arrived.');
 	setLocationMode(home_mode);
+}
+
+def switchAlexa(evt) {
+	log.debug('Alexa reported someone woke up.');
+	
+    setLocationMode(home_mode);
 }
 
 def modeChanged(evt) {

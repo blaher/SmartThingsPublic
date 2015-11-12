@@ -9,6 +9,10 @@ definition(
 );
 
 preferences {
+	section('Select Alexa Switch') {
+		input('alexa', 'capability.switch', multiple: false);
+	}
+
 	section('Select Night Mode') {
 		input('night_mode', 'mode');
 	}
@@ -17,10 +21,17 @@ preferences {
 def installed() {
 	log.debug("Installed with settings: ${settings}");
 	
+    subscribe(alexa, 'switch.off', switchMode);
 	subscribe(location, 'mode', modeNight);
 }
 
 def updated() {}
+
+def switchMode(evt) {
+	log.debug('Alexa reported to go to bed.');
+	
+    setLocationMode(night_mode);
+}
 
 def modeNight(evt) {
     log.debug("Mode changed to: ${evt.value}");
