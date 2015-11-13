@@ -35,6 +35,13 @@ def updated(settings) {
 	schedules();
 }
 
+def uninstalled() {
+	log.debug('Application uninstalled');
+    
+    unsubscribe();
+	unschedule();
+}
+
 def states() {
 	state.lightLevel = 100;
 }

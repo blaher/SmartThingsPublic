@@ -20,11 +20,19 @@ def installed() {
 }
 
 def updated(settings) {
-	unsubscribe();
-	scheduleTimes();
+	log.debug('Application updated');
+    
+	unschedule();
+	schedules();
 }
 
-def scheduleTimes() {
+def uninstalled() {
+	log.debug('Application uninstalled');
+    
+	unschedule();
+}
+
+def schedules() {
 	log.debug "Scheduling times";
 	
 	schedule("0 4 6 * * ?", checkBatteries);

@@ -40,6 +40,13 @@ def updated() {
     schedules();
 }
 
+def uninstalled() {
+	log.debug('Application uninstalled');
+    
+    unsubscribe();
+	unschedule();
+}
+
 def states() {
 	log.debug('Defining intial states');
     

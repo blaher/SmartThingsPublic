@@ -22,13 +22,23 @@ preferences {
 
 def installed() {
 	log.debug("Installed with settings: ${settings}");
+    
+    states();
+    schedules();
 }
 
 def updated() {
 	log.debug('App updated');
     
     states();
+    unschedule();
     schedules();
+}
+
+def uninstalled() {
+	log.debug('Application uninstalled');
+    
+    unschedule();
 }
 
 def states() {

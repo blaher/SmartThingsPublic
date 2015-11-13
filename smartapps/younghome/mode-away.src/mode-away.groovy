@@ -31,6 +31,12 @@ def updated() {
     subscribes();
 }
 
+def uninstalled() {
+	log.debug('Application uninstalled');
+    
+    unsubscribe();
+}
+
 def subscribes() {
 	subscribe(gps, 'switch.off', switchMode);
 	subscribe(location, 'mode', modeChanged);

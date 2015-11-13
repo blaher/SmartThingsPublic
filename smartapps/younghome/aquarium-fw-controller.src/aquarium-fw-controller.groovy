@@ -34,11 +34,19 @@ def updated(settings) {
 	log.debug('Application updated');
     
     states();
+    unsubscribe();
     subscribes();
 	unschedule();
 	schedules();
     
 	stopUnused();
+}
+
+def uninstalled() {
+	log.debug('Application uninstalled');
+    
+    unsubscribe();
+	unschedule();
 }
 
 def states() {

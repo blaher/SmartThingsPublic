@@ -31,6 +31,12 @@ def updated() {
     subscribes();
 }
 
+def uninstalled() {
+	log.debug('Application uninstalled');
+    
+    unsubscribe();
+}
+
 def subscribes() {
     subscribe(alexa, 'switch.off', switchMode);
 	subscribe(location, 'mode', modeNight);
