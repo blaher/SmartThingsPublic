@@ -25,12 +25,21 @@ preferences {
 def installed() {
 	log.debug("Installed with settings: ${settings}");
 	
+	subscribes();
+}
+
+def updated() {
+	log.debug('Application updated');
+    
+    unsubscribe();
+    subscribes();
+}
+
+def subscribes() {
 	subscribe(gps, 'switch.on', switchMode);
     subscribe(alexa, 'switch.on', switchAlexa);
 	subscribe(location, 'mode', modeChanged);
 }
-
-def updated() {}
 
 def switchMode(evt) {
 	log.debug('Someone has arrived.');

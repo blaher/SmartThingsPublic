@@ -21,11 +21,20 @@ preferences {
 def installed() {
 	log.debug("Installed with settings: ${settings}");
 	
+	subscribes();
+}
+
+def updated() {
+	log.debug('Application updated');
+    
+    unsubscribe();
+    subscribes();
+}
+
+def subscribes() {
     subscribe(alexa, 'switch.off', switchMode);
 	subscribe(location, 'mode', modeNight);
 }
-
-def updated() {}
 
 def switchMode(evt) {
 	log.debug('Alexa reported to go to bed.');
