@@ -52,7 +52,8 @@ def switchMode(evt) {
     }
 
     if (onSwitches.size() == 0) {
-	    setLocationMode(away_mode);
+	    //setLocationMode(away_mode);
+        location.helloHome?.execute("Goodbye!")
 	}
 }
 

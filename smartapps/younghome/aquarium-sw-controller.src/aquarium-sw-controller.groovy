@@ -110,7 +110,6 @@ def checkTime() {
 		case '00':
 			stopFrontLight();
 			stopBackLight();
-			startUsed();
 		break;
 		case '06':
 			switch (day){
@@ -157,6 +156,8 @@ def checkTime() {
 			}
 		break;
 		case '18':
+        	startUsed();
+            
 			switch (day){
 				case Calendar.MONDAY:
 				case Calendar.TUESDAY:

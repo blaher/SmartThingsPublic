@@ -49,13 +49,16 @@ def subscribes() {
 
 def switchMode(evt) {
 	log.debug('Someone has arrived.');
-	setLocationMode(home_mode);
+    
+	//setLocationMode(home_mode);
+    location.helloHome?.execute("I'm Back!")
 }
 
 def switchAlexa(evt) {
 	log.debug('Alexa reported someone woke up.');
 	
-    setLocationMode(home_mode);
+    //setLocationMode(home_mode);
+    location.helloHome?.execute("Good Morning!")
 }
 
 def modeChanged(evt) {

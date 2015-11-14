@@ -45,7 +45,8 @@ def subscribes() {
 def switchMode(evt) {
 	log.debug('Alexa reported to go to bed.');
 	
-    setLocationMode(night_mode);
+    //setLocationMode(night_mode);
+    location.helloHome?.execute("Good Night!")
 }
 
 def modeNight(evt) {
