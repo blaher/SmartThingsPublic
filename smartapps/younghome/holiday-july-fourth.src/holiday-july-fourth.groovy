@@ -51,7 +51,7 @@ def states() {
 def schedules() {
 	log.debug('Scheduling events');
 
-    schedule('0 0/15 5-6 4 6 ?', lightsOn);
+    schedule('0 0/10 5 4 6 ?', lightsOn);
     schedule('0 0/15 9 4 6 ?', lightsOff);
 }
 
