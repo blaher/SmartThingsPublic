@@ -51,8 +51,8 @@ def states() {
 def schedules() {
 	log.debug('Scheduling events');
 
-    schedule('0 0/15 5 4 6 ?', lightsOn);
-    schedule('0 0/15 8 4 6 ?', lightsOff);
+    schedule('0 0/15 5-6 4 6 ?', lightsOn);
+    schedule('0 0/15 9 4 6 ?', lightsOff);
 }
 
 def lightsOn() {
@@ -112,7 +112,7 @@ def stepTwo() {
         lightsThree.setColor(hex: '#ffffff');
 
 		unschedule(stepThree);
-        runIn(2, stepThree);
+        runIn(5, stepThree);
     }
 }
 
@@ -127,6 +127,6 @@ def stepThree() {
         lightsThree.setColor(hex: '#ff0000');
 
 		unschedule(stepOne);
-        runIn(2, stepOne);
+        runIn(5, stepOne);
     }
 }
