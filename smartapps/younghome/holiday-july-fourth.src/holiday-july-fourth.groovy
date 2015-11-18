@@ -68,6 +68,10 @@ def lightsOn() {
     lightsTwo.setColorTemperature(0);
     lightsThree.setColorTemperature(0);
     
+    lightsOne.setLevel(100);
+    lightsTwo.setLevel(100);
+    lightsThree.setLevel(100);
+    
     stepOne();
 }
 
@@ -84,6 +88,10 @@ def lightsOff() {
     lightsOne.setColorTemperature(100);
     lightsTwo.setColorTemperature(100);
     lightsThree.setColorTemperature(100);
+    
+    lightsOne.setLevel(0);
+    lightsTwo.setLevel(0);
+    lightsThree.setLevel(0);
 }
 
 def stepOne() {
@@ -95,6 +103,10 @@ def stepOne() {
         lightsOne.setColor(hex: '#ff0000');
         lightsTwo.setColor(hex: '#ffffff');
         lightsThree.setColor(hex: '#0000ff');
+        
+        lightsOne.setLevel(100);
+        lightsTwo.setLevel(100);
+        lightsThree.setLevel(100);
 
 		unschedule(stepTwo);
         runIn(2, stepTwo);
@@ -110,6 +122,10 @@ def stepTwo() {
         lightsOne.setColor(hex: '#0000ff');
         lightsTwo.setColor(hex: '#ff0000');
         lightsThree.setColor(hex: '#ffffff');
+        
+        lightsOne.setLevel(100);
+        lightsTwo.setLevel(100);
+        lightsThree.setLevel(100);
 
 		unschedule(stepThree);
         runIn(5, stepThree);
@@ -125,6 +141,10 @@ def stepThree() {
         lightsOne.setColor(hex: '#ffffff');
         lightsTwo.setColor(hex: '#0000ff');
         lightsThree.setColor(hex: '#ff0000');
+        
+        lightsOne.setLevel(100);
+        lightsTwo.setLevel(100);
+        lightsThree.setLevel(100);
 
 		unschedule(stepOne);
         runIn(5, stepOne);

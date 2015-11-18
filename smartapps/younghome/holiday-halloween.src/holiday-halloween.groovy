@@ -66,6 +66,9 @@ def lightsOn() {
     lightsOdd.setColorTemperature(0);
     lightsEven.setColorTemperature(0);
     
+    lightsOdd.setLevel(100);
+    lightsEven.setLevel(100);
+    
     stepOne();
 }
 
@@ -80,6 +83,9 @@ def lightsOff() {
     
     lightsOdd.setColorTemperature(100);
     lightsEven.setColorTemperature(100);
+    
+    lightsOdd.setLevel(0);
+    lightsEven.setLevel(0);
 }
 
 def stepOne() {
@@ -90,6 +96,9 @@ def stepOne() {
     
         lightsOdd.setColor(hex: '#ff2200');
         lightsEven.setColor(hex: '#000000');
+        
+        lightsOdd.setLevel(100);
+    	lightsEven.setLevel(100);
 
 		unschedule(stepTwo);
         runIn(5, stepTwo);
@@ -104,6 +113,9 @@ def stepTwo() {
     
         lightsOdd.setColor(hex: '#000000');
         lightsEven.setColor(hex: '#ff2200');
+        
+        lightsOdd.setLevel(100);
+    	lightsEven.setLevel(100);
 
 		unschedule(stepOne);
         runIn(5, stepOne);
