@@ -25,12 +25,14 @@ preferences {
 def installed() {
 	log.debug("Installed with settings: ${settings}");
 	
+    states();
 	subscribes();
 }
 
 def updated() {
 	log.debug('Application updated');
     
+    states();
     unsubscribe();
     subscribes();
 }
@@ -39,6 +41,10 @@ def uninstalled() {
 	log.debug('Application uninstalled');
     
     unsubscribe();
+}
+
+def states() {
+	state.awake = false;
 }
 
 def subscribes() {
@@ -55,16 +61,23 @@ def switchMode(evt) {
 }
 
 def switchAlexa(evt) {
-	log.debug('Alexa reported someone woke up.');
-	
-    //setLocationMode(home_mode);
-    location.helloHome?.execute("Good Morning!")
+	if (!state.awake) {
+        log.debug('Alexa reported someone woke up.');
+
+        //setLocationMode(home_mode);
+        location.helloHome?.execute("Good Morning!")
+	} else {
+    	log.debug('Someone is already awake.');
+        
+    	state.awake = false;
+    }
 }
 
 def modeChanged(evt) {
     log.debug("Mode changed to: ${evt.value}");
     
     if (evt.value == home_mode) {
-    
+    	state.awake = true;
+    	alexa.on();
     }
 }
